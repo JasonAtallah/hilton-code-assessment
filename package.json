@@ -1,0 +1,36 @@
+{
+  "name": "nextjs-hello-world",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "test": "jest",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "autoprefixer": "latest",
+    "isomorphic-unfetch": "latest",
+    "msw": "latest",
+    "next": "latest",
+    "postcss": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "tailwindcss": "latest"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@testing-library/user-event": "latest",
+    "@types/testing-library__jest-dom": "latest",
+    "jest-environment-jsdom": "latest",
+    "@emotion/react": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "jest": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "typescript": "latest"
+  }
+}
