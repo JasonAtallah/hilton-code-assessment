@@ -1,6 +1,6 @@
 import { InferGetServerSidePropsType, NextPage } from "next";
 import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import CityWeather from "../components/city-weather-refactor";
 
 const KtoF = (tempKelvin: number): number => {
@@ -19,7 +19,9 @@ const IndexPage: NextPage<
 > = (props) => {
   const [city, setCity] = useState("");
   const router = useRouter();
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
+  const focusInput = () => inputRef?.current?.focus();
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     router.push(`?city=${city}`);
@@ -31,9 +33,12 @@ const IndexPage: NextPage<
   return (
     <div className="flex flex-col items-center gap-12 p-8">
       <form className="flex gap-2" onSubmit={handleSubmit}>
-        <span className="text-lg self-center">Weather Search: </span>
+        <span className="text-lg self-center" onClick={focusInput}>
+          Weather Search:{" "}
+        </span>
         <div className="flex">
           <input
+            ref={inputRef}
             type="text"
             id="city"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
