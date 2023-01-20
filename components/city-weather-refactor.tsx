@@ -9,19 +9,19 @@ import { titleOrEmptyStr, uppercaseOrEmptyStr } from "../utils/text-transform";
 
 interface Props {
   city: string;
-  temperature: number;
+  temperature: string;
   description: string;
-  iconCode: string;
+  icon: string;
 }
 
-const CityWeather = ({ city, temperature, description, iconCode }: Props) => (
+const CityWeather = ({ city, temperature, description, icon }: Props) => (
   <div className="bg-white flex flex-col items-center w-60 rounded-xl p-4 shadow-md">
     <h3 className="text-xl font-bold text-gray-650">
       {uppercaseOrEmptyStr(city)}
     </h3>
 
     <Image
-      src={`http://openweathermap.org/img/wn/${iconCode}@2x.png`}
+      src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
       alt=""
       width={128}
       height={128}

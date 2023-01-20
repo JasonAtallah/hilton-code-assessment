@@ -13,11 +13,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Custom colors to [Tailwind Config](tailwind.config.js) (this was needed because some colors in the [design.png](design.png) are not tailwind colors)
 - [Layout](components/main-layout.tsx) for app
 
-### Security
+### Changed
 
-- Moved Open Weather API key to .env
+- UI to match [design.png](design.png)
+- Weather data to be query param based
 
 ### Fixed
 
 - [CityWeather](components/city-weather.tsx) component crashing application after submitting form
 - Typos in [CityWeather](components/city-weather.tsx) component
+
+### Security
+
+- Moved Open Weather API key to .env
