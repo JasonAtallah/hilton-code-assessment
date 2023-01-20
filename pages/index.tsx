@@ -14,45 +14,6 @@ interface WeatherResult {
   icon: string;
 }
 
-// I don't like using serverSideProps and almost never will but it will suffice in this situation.
-// The flow of data and false sense of typesafety in serverSideProps are concerning.
-export const getServerSideProps = async ({
-  query,
-}: {
-  query: { city?: string };
-}) => {
-  // Using the router to find determine city.
-  // I like this because it makes pages easier to share and bookmark.
-  const city = String(query.city);
-
-  const { OPEN_WEATHER_API_KEY } = process.env;
-  const emptyProps = { props: {} };
-
-  if (!OPEN_WEATHER_API_KEY) console.error("No API key for Open Weather found");
-  if (!city || !OPEN_WEATHER_API_KEY) return emptyProps;
-
-  const res = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${OPEN_WEATHER_API_KEY}`
-  );
-  const data = await res.json();
-
-  if (!data?.main?.temp) {
-    console.error(`Failed to pull weather data from ${city}`);
-    return emptyProps;
-  }
-
-  const { description, icon } = data.weather[0];
-
-  return {
-    props: {
-      city,
-      temperature: KtoF(data.main.temp).toFixed(0),
-      description,
-      icon,
-    },
-  };
-};
-
 const IndexPage: NextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>
 > = (props) => {
@@ -90,3 +51,41 @@ const IndexPage: NextPage<
 };
 
 export default IndexPage;
+
+// I don't like using serverSideProps and almost never will but it will suffice in this situation.
+// The flow of data and false sense of typesafety in serverSideProps are concerning.
+export const getServerSideProps = async ({
+  query,
+}: {
+  query: { city?: string };
+}) => {
+  // Using the router to determine city. Makes pages easier to share and bookmark.
+  const city = String(query.city);
+
+  const { OPEN_WEATHER_API_KEY } = process.env;
+  const emptyProps = { props: {} };
+
+  if (!OPEN_WEATHER_API_KEY)
+    throw new Error("No API key for Open Weather found");
+  if (!city) return emptyProps;
+
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${OPEN_WEATHER_API_KEY}`;
+  const res = await fetch(url);
+  const data = await res.json();
+
+  if (!data?.main?.temp) {
+    console.log(`Failed to pull weather data from ${city}`);
+    return emptyProps;
+  }
+
+  const { description, icon } = data.weather[0];
+
+  return {
+    props: {
+      city,
+      temperature: KtoF(data.main.temp).toFixed(0),
+      description,
+      icon,
+    },
+  };
+};
