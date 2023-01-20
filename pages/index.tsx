@@ -7,6 +7,13 @@ const KtoF = (tempKelvin: number): number => {
   return ((tempKelvin - 273.15) * 9) / 5 + 32;
 };
 
+interface WeatherResult {
+  city: string;
+  temperature: string;
+  description: string;
+  icon: string;
+}
+
 // I don't like using serverSideProps and almost never will but it will suffice in this situation.
 // The flow of data and false sense of typesafety in serverSideProps are concerning.
 export const getServerSideProps = async ({
@@ -57,6 +64,9 @@ const IndexPage: NextPage<
     router.push(`?city=${city}`);
   };
 
+  // Typesafety is muddy at best with serverSideProps, workaround needed here
+  const weatherResults = props as WeatherResult;
+
   return (
     <div className="flex flex-col items-center gap-12 p-8">
       <form className="flex gap-2" onSubmit={handleSubmit}>
@@ -74,7 +84,7 @@ const IndexPage: NextPage<
           </button>
         </div>
       </form>
-      {props.city && <CityWeather {...props} />}
+      {weatherResults.city && <CityWeather {...weatherResults} />}
     </div>
   );
 };
