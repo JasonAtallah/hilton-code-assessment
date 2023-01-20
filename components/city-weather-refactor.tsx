@@ -22,15 +22,15 @@ const CityWeather = ({ city, temperature, description, icon }: Props) => (
 
     <Image
       src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
-      alt=""
+      alt="Weather description image"
       width={128}
       height={128}
     />
 
     <h6 className="text-neutral-450">{titleOrEmptyStr(description)}</h6>
 
-    <span className="text-neutral-450 text-sm mt-2">
-      Temperature:&nbsp;&nbsp;
+    <span className="flex gap-3 items-end text-neutral-450 text-sm mt-2">
+      Temperature:
       <span className="text-3xl text-black">{temperature}&#8457;</span>
     </span>
   </div>

@@ -33,9 +33,13 @@ const IndexPage: NextPage<
   return (
     <div className="flex flex-col items-center gap-12 p-8">
       <form className="flex gap-2" onSubmit={handleSubmit}>
-        <span className="text-lg self-center" onClick={focusInput}>
-          Weather Search:{" "}
-        </span>
+        <label
+          htmlFor="city"
+          className="text-lg self-center"
+          onClick={focusInput}
+        >
+          Weather Search:
+        </label>
         <div className="flex">
           <input
             ref={inputRef}
@@ -44,6 +48,7 @@ const IndexPage: NextPage<
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
             onChange={(e) => setCity(e.target.value)}
+            aria-label="City Search"
           />
           <button className="bg-blue-450 text-white p-3 rounded-r-xl">
             SUBMIT
@@ -57,18 +62,18 @@ const IndexPage: NextPage<
 
 export default IndexPage;
 
-// I don't like using serverSideProps and almost never will but it will suffice in this situation.
-// The flow of data and false sense of typesafety in serverSideProps are concerning.
+// I don't like using getServerSideProps and almost never will but it will suffice in this situation.
+// The flow of data and false sense of typesafety in getServerSideProps are concerning.
 export const getServerSideProps = async ({
   query,
 }: {
   query: { city?: string };
 }) => {
+  const emptyProps = { props: {} };
   // Using the router to determine city. Makes pages easier to share and bookmark.
   const city = String(query.city);
 
   const { OPEN_WEATHER_API_KEY } = process.env;
-  const emptyProps = { props: {} };
 
   if (!OPEN_WEATHER_API_KEY)
     throw new Error("No API key for Open Weather found");
@@ -84,13 +89,7 @@ export const getServerSideProps = async ({
   }
 
   const { description, icon } = data.weather[0];
+  const temperature = KtoF(data.main.temp).toFixed(0);
 
-  return {
-    props: {
-      city,
-      temperature: KtoF(data.main.temp).toFixed(0),
-      description,
-      icon,
-    },
-  };
+  return { props: { city, temperature, description, icon } };
 };
