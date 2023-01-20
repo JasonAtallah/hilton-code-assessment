@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - .eslintrc.json
-- Custom color to [Tailwind Config](tailwind.config.js) (this was needed because the background in [design.png](design.png) was not a tailwind color)
+- Custom colors to [Tailwind Config](tailwind.config.js) (this was needed because some colors in the [design.png](design.png) are not tailwind colors)
 - [Layout](components/main-layout.tsx) for app
 
 ### Security
