@@ -15,7 +15,10 @@ export interface Props {
 }
 
 const CityWeather = ({ city, temperature, description, icon }: Props) => (
-  <div className="bg-white flex flex-col items-center w-60 rounded-xl p-4 shadow-md">
+  <div
+    data-testid="city-weather"
+    className="bg-white flex flex-col items-center w-60 rounded-xl p-4 shadow-md"
+  >
     <h3 data-testid="city" className="text-xl font-bold text-gray-650">
       {uppercaseOrEmptyStr(city)}
     </h3>

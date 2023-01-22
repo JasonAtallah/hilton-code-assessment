@@ -9,29 +9,29 @@ const props: Props = {
   icon: "04d",
 };
 
-describe("city weather refactor", () => {
+describe("CityWeather component", () => {
   beforeEach(() => {
     render(<CityWeather {...props} />);
   });
 
-  test("It shows the city", () => {
+  test("should show the city", () => {
     const el = screen.getByTestId("city");
     expect(el).toBeInTheDocument();
     expect(el).toHaveTextContent(uppercaseOrEmptyStr(props.city));
   });
 
-  test("It shows the icon", () => {
+  test("should show the icon", () => {
     const el = screen.getByTestId("icon");
     expect(el).toBeInTheDocument();
   });
 
-  test("It shows the description", () => {
+  test("should show the description", () => {
     const el = screen.getByTestId("description");
     expect(el).toBeInTheDocument();
     expect(el).toHaveTextContent(props.description);
   });
 
-  test("It shows the temperature", () => {
+  test("should show the temperature", () => {
     const el = screen.getByTestId("temperature");
     expect(el).toBeInTheDocument();
     expect(el).toHaveTextContent(props.temperature);
