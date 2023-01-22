@@ -56,7 +56,7 @@ describe("getServerSideProps", () => {
     process.env.OPEN_WEATHER_API_KEY = "";
 
     await expect(getServerSideProps({ query })).rejects.toThrow(
-      "No API key for Open Weather found"
+      "Open Weather API not configured properly"
     );
   });
 

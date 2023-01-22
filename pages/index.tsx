@@ -41,19 +41,22 @@ export const getServerSideProps = async ({
 
   const { OPEN_WEATHER_API_KEY, OPEN_WEATHER_BASE_URL } = process.env;
 
-  if (!OPEN_WEATHER_API_KEY)
-    throw new Error("No API key for Open Weather found");
+  if (!OPEN_WEATHER_API_KEY || !OPEN_WEATHER_BASE_URL)
+    throw new Error("Open Weather API not configured properly");
 
   if (!city) return emptyProps;
 
-  const url = `${OPEN_WEATHER_BASE_URL}/data/2.5/weather?q=${city}&appid=${OPEN_WEATHER_API_KEY}`;
-  const res = await fetch(url);
-  const data = await res.json();
+  try {
+    const url = `${OPEN_WEATHER_BASE_URL}/data/2.5/weather?q=${city}&appid=${OPEN_WEATHER_API_KEY}`;
+    const res = await fetch(url);
+    const data = await res.json();
 
-  if (!data?.main?.temp) return emptyProps;
+    const { description, icon } = data.weather[0];
+    const temperature = KtoF(data.main.temp).toFixed(0);
 
-  const { description, icon } = data.weather[0];
-  const temperature = KtoF(data.main.temp).toFixed(0);
-
-  return { props: { city, temperature, description, icon } };
+    return { props: { city, temperature, description, icon } };
+  } catch (error) {
+    // Could do more validation based off of errors Open Weather throws but a catch all, silent fail does the job
+    return emptyProps;
+  }
 };

@@ -1,5 +1,6 @@
 // I prefer to put these sort of things in layout to leave _app as simple and basic as possible.
-// Makes changing the functionality/logic as easy as creating a new layout
+// Makes changing the functionality/logic as easy as creating a new layout or extending this one.
+
 import { ReactNode, useEffect, useState } from "react";
 import Router from "next/router";
 import Loader from "./loader";
