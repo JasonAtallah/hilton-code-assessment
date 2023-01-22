@@ -7,8 +7,8 @@ import Loader from "./loader";
 const MainLayout = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false);
 
-  // Work around to find if getServerSideProps is running.
   useEffect(() => {
+    // Work around to find if getServerSideProps is running.
     const start = () => setLoading(true);
     const end = () => setLoading(false);
     Router.events.on("routeChangeStart", start);

@@ -15,45 +15,39 @@ const TestComponent = () => (
 );
 
 describe("main layout loader", () => {
-  test("It shows loader on routeChangeStart", () => {
-    render(<TestComponent />);
-    act(() => Router.events.emit("routeChangeStart"));
+  beforeEach(() => render(<TestComponent />));
 
+  test("It shows loader on routeChangeStart", () => {
+    act(() => Router.events.emit("routeChangeStart"));
     const loaderEl = screen.getByTestId("loader");
     expect(loaderEl).toBeInTheDocument();
   });
 
   test.each(EVENTS_WITH_CONTENT)("It does not show loader on %s", (event) => {
-    render(<TestComponent />);
     act(() => Router.events.emit(event as RouteEvent));
-
     const loaderEl = screen.queryAllByTestId("loader");
     expect(loaderEl.length).toBe(0);
   });
 });
 
 describe("main layout content", () => {
-  test("It shows content", () => {
-    render(<TestComponent />);
+  beforeEach(() => render(<TestComponent />));
 
+  test("It shows content", () => {
     const contentEl = screen.getByTestId("content");
     expect(contentEl).toBeInTheDocument();
     expect(contentEl).toHaveTextContent(CONTENT_TEXT);
   });
 
   test.each(EVENTS_WITH_CONTENT)("It shows content on %s", (event) => {
-    render(<TestComponent />);
     act(() => Router.events.emit(event as RouteEvent));
-
     const contentEl = screen.getByTestId("content");
     expect(contentEl).toBeInTheDocument();
     expect(contentEl).toHaveTextContent(CONTENT_TEXT);
   });
 
   test("It does not show content on routeChangeStart", () => {
-    render(<TestComponent />);
     act(() => Router.events.emit("routeChangeStart"));
-
     const contentEl = screen.queryAllByTestId("content");
     expect(contentEl.length).toBe(0);
   });
