@@ -1,7 +1,10 @@
 // Just a basic spinner that you can drop in when needed
 
 const Loader = () => (
-  <div className="flex flex-col justify-center items-center h-screen gap-8">
+  <div
+    data-testid="loader"
+    className="flex flex-col justify-center items-center h-screen gap-8"
+  >
     <div role="status">
       <svg
         aria-hidden="true"
