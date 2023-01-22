@@ -23,7 +23,10 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <div className="h-full w-full min-h-screen min-w-screen bg-slate-150">
+    <div
+      className="h-full w-full min-h-screen min-w-screen bg-slate-150"
+      aria-label={loading ? "Loading" : ""}
+    >
       {loading ? <Loader /> : <div>{children}</div>}
     </div>
   );

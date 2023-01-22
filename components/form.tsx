@@ -32,11 +32,12 @@ const Form = () => {
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           required
           onChange={(e) => setCity(e.target.value)}
-          aria-label="City Search"
+          aria-label="City search input field"
         />
         <button
           data-testid="submit-btn"
           className="bg-blue-450 text-white p-3 rounded-r-xl"
+          aria-label="Submit button"
         >
           SUBMIT
         </button>
