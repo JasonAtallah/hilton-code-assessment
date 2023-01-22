@@ -1,36 +1,21 @@
 import "isomorphic-unfetch";
-import { rest } from "msw";
-import { setupServer } from "msw/node";
 import { NextRouter } from "next/router";
-import IndexPage from "./index";
+import IndexPage, { getServerSideProps, OptionalWeatherResult } from "./index";
 import { RouterContext } from "next/dist/shared/lib/router-context";
 import { createMockRouter } from "../test-utils/mock-router";
 import { MOCK_RESULTS } from "../test-utils/mock-results";
-import {
-  fireEvent,
-  queryByTestId,
-  render,
-  waitFor,
-  screen,
-} from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import { server } from "../test-utils/mock-server";
 
-const CITY = "San Francisco";
+const createTestComponent = (
+  router?: NextRouter,
+  props?: OptionalWeatherResult
+) => {
+  const p = props ?? {};
 
-const server = setupServer(
-  rest.get("./api", (req, res, ctx) => {
-    console.log("is this runnign?");
-    return res(ctx.json(MOCK_RESULTS));
-  })
-);
-
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
-
-const createTestComponent = (router?: NextRouter) => {
   return (
     <RouterContext.Provider value={router || createMockRouter({})}>
-      <IndexPage />
+      <IndexPage {...p} />
     </RouterContext.Provider>
   );
 };
@@ -43,11 +28,62 @@ describe("IndexPage", () => {
     expect(el).toBeInTheDocument();
   });
 
-  it("should not render the weather card if the city query param is not present", () => {});
+  it("should not render the weather card if the city query param is not present", () => {
+    render(createTestComponent());
+    const el = screen.queryByTestId("city-weather");
+    expect(el).not.toBeInTheDocument();
+  });
 
-  it("should render the weather card if the city query param is present", () => {});
+  it("should render the city weather card if there are weather results", async () => {
+    render(createTestComponent(createMockRouter({}), MOCK_RESULTS));
+    const el = screen.getByTestId("city-weather");
+    expect(el).toBeInTheDocument();
+  });
+});
 
-  it("should query for weather results when a city query param is present");
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
-  it("should show a loading screen while querying for weather results");
+// describe("getServerSideProps", () => {
+// const props = await getServerSideProps({ query: { city: "New York" } });
+// const weatherResults = props as { props: WeatherResult };
+
+// });
+
+describe("getServerSideProps", () => {
+  it("should return empty props when no city is provided", async () => {
+    const query = {};
+    const result = await getServerSideProps({ query });
+    expect(result).toEqual({ props: {} });
+  });
+
+  it("should throw an error when no Open Weather API key is provided", async () => {
+    const query = { city: "New York" };
+    process.env.OPEN_WEATHER_API_KEY = "";
+    await expect(getServerSideProps({ query })).rejects.toThrow(
+      "No API key for Open Weather found"
+    );
+  });
+
+  it("should return weather data when a valid city and API key are provided", async () => {
+    const query = { city: "New York" };
+    process.env.OPEN_WEATHER_API_KEY = "valid_api_key";
+    const result = await getServerSideProps({ query });
+    expect(result).toEqual({
+      props: {
+        city: "New York",
+        temperature: expect.any(Number),
+        description: expect.any(String),
+        icon: expect.any(String),
+      },
+    });
+  });
+
+  it("should return empty props when failed to pull weather data from a provided city", async () => {
+    const query = { city: "InvalidCity" };
+    process.env.OPEN_WEATHER_API_KEY = "valid_api_key";
+    const result = await getServerSideProps({ query });
+    expect(result).toEqual({ props: {} });
+  });
 });

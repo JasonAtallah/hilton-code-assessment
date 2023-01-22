@@ -11,7 +11,7 @@ export interface WeatherResult {
   icon: string;
 }
 
-type OptionalWeatherResult = WeatherResult | undefined;
+export type OptionalWeatherResult = WeatherResult | undefined;
 
 const IndexPage: NextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>
