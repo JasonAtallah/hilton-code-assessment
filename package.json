@@ -20,17 +20,17 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@emotion/react": "latest",
     "@testing-library/jest-dom": "latest",
     "@testing-library/react": "latest",
     "@testing-library/user-event": "latest",
-    "@types/testing-library__jest-dom": "latest",
-    "jest-environment-jsdom": "latest",
-    "@emotion/react": "latest",
     "@types/node": "latest",
     "@types/react": "latest",
-    "jest": "latest",
+    "@types/testing-library__jest-dom": "latest",
     "eslint": "latest",
     "eslint-config-next": "latest",
+    "jest": "latest",
+    "jest-environment-jsdom": "latest",
     "typescript": "latest"
   }
 }

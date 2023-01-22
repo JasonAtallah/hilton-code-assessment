@@ -1,61 +1,27 @@
 import { InferGetServerSidePropsType, NextPage } from "next";
-import { useRouter } from "next/router";
-import { FormEvent, useRef, useState } from "react";
+import { useMemo } from "react";
 import CityWeather from "../components/city-weather-refactor";
+import Form from "../components/form";
+import { KtoF } from "../utils/temperature";
 
-const KtoF = (tempKelvin: number): number => {
-  return ((tempKelvin - 273.15) * 9) / 5 + 32;
-};
-
-interface WeatherResult {
+export interface WeatherResult {
   city: string;
   temperature: string;
   description: string;
   icon: string;
 }
 
+type OptionalWeatherResult = WeatherResult | undefined;
+
 const IndexPage: NextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>
 > = (props) => {
-  const [city, setCity] = useState("");
-  const router = useRouter();
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
-  const focusInput = () => inputRef?.current?.focus();
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    router.push(`?city=${city}`);
-  };
-
-  // Typesafety is muddy at best with serverSideProps, workaround needed here
-  const weatherResults = props as WeatherResult;
+  const weatherResults = useMemo(() => props as OptionalWeatherResult, [props]);
 
   return (
     <div className="flex flex-col items-center gap-12 p-8">
-      <form className="flex gap-2" onSubmit={handleSubmit}>
-        <label
-          htmlFor="city"
-          className="text-lg self-center"
-          onClick={focusInput}
-        >
-          Weather Search:
-        </label>
-        <div className="flex">
-          <input
-            ref={inputRef}
-            type="text"
-            id="city"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            required
-            onChange={(e) => setCity(e.target.value)}
-            aria-label="City Search"
-          />
-          <button className="bg-blue-450 text-white p-3 rounded-r-xl">
-            SUBMIT
-          </button>
-        </div>
-      </form>
-      {weatherResults.city && <CityWeather {...weatherResults} />}
+      <Form />
+      {weatherResults?.city && <CityWeather {...weatherResults} />}
     </div>
   );
 };

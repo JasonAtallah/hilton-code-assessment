@@ -1,23 +1,17 @@
 import { render, screen } from "@testing-library/react";
+import { MOCK_RESULTS } from "../test-utils/mock-results";
 import { uppercaseOrEmptyStr } from "../utils/text-transform";
 import CityWeather, { Props } from "./city-weather-refactor";
 
-const props: Props = {
-  city: "San Francisco",
-  temperature: "0",
-  description: "Broken Clouds",
-  icon: "04d",
-};
-
 describe("CityWeather component", () => {
   beforeEach(() => {
-    render(<CityWeather {...props} />);
+    render(<CityWeather {...MOCK_RESULTS} />);
   });
 
   test("should show the city", () => {
     const el = screen.getByTestId("city");
     expect(el).toBeInTheDocument();
-    expect(el).toHaveTextContent(uppercaseOrEmptyStr(props.city));
+    expect(el).toHaveTextContent(uppercaseOrEmptyStr(MOCK_RESULTS.city));
   });
 
   test("should show the icon", () => {
@@ -28,12 +22,12 @@ describe("CityWeather component", () => {
   test("should show the description", () => {
     const el = screen.getByTestId("description");
     expect(el).toBeInTheDocument();
-    expect(el).toHaveTextContent(props.description);
+    expect(el).toHaveTextContent(MOCK_RESULTS.description);
   });
 
   test("should show the temperature", () => {
     const el = screen.getByTestId("temperature");
     expect(el).toBeInTheDocument();
-    expect(el).toHaveTextContent(props.temperature);
+    expect(el).toHaveTextContent(MOCK_RESULTS.temperature);
   });
 });

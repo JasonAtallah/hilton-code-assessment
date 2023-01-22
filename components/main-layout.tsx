@@ -1,4 +1,4 @@
-// I prefer to put these sort of things in a layout to leave _app as simple and basic as possible.
+// I prefer to put these sort of things in layout to leave _app as simple and basic as possible.
 // Makes changing the functionality/logic as easy as creating a new layout
 import { ReactNode, useEffect, useState } from "react";
 import Router from "next/router";
@@ -7,8 +7,8 @@ import Loader from "./loader";
 const MainLayout = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false);
 
+  // Work around to find if getServerSideProps is running.
   useEffect(() => {
-    // Work around to find if getServerSideProps is running.
     const start = () => setLoading(true);
     const end = () => setLoading(false);
     Router.events.on("routeChangeStart", start);
