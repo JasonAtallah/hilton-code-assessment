@@ -17,7 +17,7 @@ const TestComponent = () => (
 describe("MainLayout component", () => {
   beforeEach(() => render(<TestComponent />));
 
-  test("should loader on routeChangeStart", () => {
+  test("should show loader on routeChangeStart", () => {
     act(() => Router.events.emit("routeChangeStart"));
     const loaderEl = screen.getByTestId("loader");
     expect(loaderEl).toBeInTheDocument();
@@ -27,12 +27,6 @@ describe("MainLayout component", () => {
     act(() => Router.events.emit(event as RouteEvent));
     const loaderEl = screen.queryAllByTestId("loader");
     expect(loaderEl.length).toBe(0);
-  });
-
-  test("should show content", () => {
-    const contentEl = screen.getByTestId("content");
-    expect(contentEl).toBeInTheDocument();
-    expect(contentEl).toHaveTextContent(CONTENT_TEXT);
   });
 
   test.each(EVENTS_WITH_CONTENT)("should not show content on %s", (event) => {

@@ -39,20 +39,18 @@ export const getServerSideProps = async ({
   // Using the router to determine city. Makes pages easier to share and bookmark.
   const city = String(query.city);
 
-  const { OPEN_WEATHER_API_KEY } = process.env;
+  const { OPEN_WEATHER_API_KEY, OPEN_WEATHER_BASE_URL } = process.env;
 
   if (!OPEN_WEATHER_API_KEY)
     throw new Error("No API key for Open Weather found");
+
   if (!city) return emptyProps;
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${OPEN_WEATHER_API_KEY}`;
+  const url = `${OPEN_WEATHER_BASE_URL}/data/2.5/weather?q=${city}&appid=${OPEN_WEATHER_API_KEY}`;
   const res = await fetch(url);
   const data = await res.json();
 
-  if (!data?.main?.temp) {
-    console.log(`Failed to pull weather data from ${city}`);
-    return emptyProps;
-  }
+  if (!data?.main?.temp) return emptyProps;
 
   const { description, icon } = data.weather[0];
   const temperature = KtoF(data.main.temp).toFixed(0);

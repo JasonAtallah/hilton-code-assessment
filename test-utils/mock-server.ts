@@ -7,7 +7,6 @@ const IS_BROWSER = typeof window === undefined;
 // Add any other http request mock handlers into this array
 const handlers = [
   rest.get(`${process.env.OPEN_WEATHER_BASE_URL}/*`, (req, res, ctx) => {
-    console.log("is this running????");
     return res(
       ctx.json({
         weather: [

@@ -17,12 +17,12 @@ describe("Form component", () => {
   test("should show search bar", async () => {
     render(createTestComponent());
 
-    const weatherSearchLabelEl = screen.getByTestId("weather-search-label");
-    expect(weatherSearchLabelEl).toBeInTheDocument();
-    expect(weatherSearchLabelEl).toHaveTextContent("Weather Search:");
+    const labelEl = screen.getByTestId("weather-search-label");
+    expect(labelEl).toBeInTheDocument();
+    expect(labelEl).toHaveTextContent("Weather Search:");
 
-    const weatherSearchInputEl = screen.getByTestId("weather-search-input");
-    expect(weatherSearchInputEl).toBeInTheDocument();
+    const inputEl = screen.getByTestId("weather-search-input");
+    expect(inputEl).toBeInTheDocument();
 
     const buttonEl = screen.getByTestId("submit-btn");
     expect(buttonEl).toBeInTheDocument();
@@ -33,11 +33,11 @@ describe("Form component", () => {
     render(createTestComponent());
 
     const labelEl = screen.getByTestId("weather-search-label");
-    const searchInputEl = screen.getByTestId("weather-search-input");
+    const inputEl = screen.getByTestId("weather-search-input");
 
-    expect(searchInputEl).not.toHaveFocus();
+    expect(inputEl).not.toHaveFocus();
     fireEvent.click(labelEl);
-    expect(searchInputEl).toHaveFocus();
+    expect(inputEl).toHaveFocus();
   });
 
   test("should route to city page when button is clicked", () => {
@@ -46,14 +46,14 @@ describe("Form component", () => {
 
     const { city } = MOCK_RESULTS;
 
-    const searchInputEl = screen.getByTestId(
+    const inputEl = screen.getByTestId(
       "weather-search-input"
     ) as HTMLInputElement;
 
-    fireEvent.change(searchInputEl, {
+    fireEvent.change(inputEl, {
       target: { value: city },
     });
-    expect(searchInputEl.value).toBe(city);
+    expect(inputEl.value).toBe(city);
 
     const buttonEl = screen.getByTestId("submit-btn") as HTMLButtonElement;
     fireEvent.click(buttonEl);

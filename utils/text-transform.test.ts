@@ -9,7 +9,7 @@ describe("uppercaseOrEmptyStr", () => {
 
   const cases = ["", 1, 1.1, null, undefined, true, false, {}, []];
   test.each(cases)("should return an empty string for %s", (value) => {
-    // All of these values shouuld be caught at build time or by a linter since the fn expects a string
+    // All of these values should be caught at build time or by a linter since the fn expects a string
     // I'm ignoring ts here because I never underestimate my ability to write bugs
     // @ts-ignore
     expect(uppercaseOrEmptyStr(value)).toBe("");

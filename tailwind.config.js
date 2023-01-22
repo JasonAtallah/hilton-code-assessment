@@ -5,6 +5,7 @@ module.exports = {
   ],
   theme: {
     extend: {
+      // adding custom colors here to match the design.png more accurately
       colors: {
         blue: {
           450: "#4683C8",
