@@ -1,3 +1,8 @@
+/**
+ *
+ * @param text Text you want to transform
+ * @returns Text in all uppercase if possible. If not, will return an empty string
+ */
 export const uppercaseOrEmptyStr = (text: string): string => {
   try {
     return text.toUpperCase();
@@ -6,6 +11,11 @@ export const uppercaseOrEmptyStr = (text: string): string => {
   }
 };
 
+/**
+ *
+ * @param text Text you want to convert to title case
+ * @returns Text in title case
+ */
 export const title = (text: string): string => {
   return text
     .split(" ")
@@ -16,6 +26,11 @@ export const title = (text: string): string => {
     .join(" ");
 };
 
+/**
+ *
+ * @param text Text you want to convert to title case
+ * @returns Text in title case if possible. If not, will return an empty string
+ */
 export const titleOrEmptyStr = (text: string): string => {
   try {
     return title(text);
