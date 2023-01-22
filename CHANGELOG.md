@@ -17,12 +17,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - UI to match [design.png](design.png)
 - Weather data to be query param based
+- Weather data to come from getServerSideProps
+
+### Security
+
+- Moved Open Weather API key to .env
+
+<!-- 1.0.0 representing everything before the refactor -->
+
+## [1.0.0]
 
 ### Fixed
 
 - [CityWeather](components/city-weather.tsx) component crashing application after submitting form
 - Typos in [CityWeather](components/city-weather.tsx) component
-
-### Security
-
-- Moved Open Weather API key to .env
